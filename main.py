@@ -1,11 +1,21 @@
 import mysql.connector
 from mysql.connector import Error
 
+# Output design options
 class color:
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = U = '\033[4m'
+    END = '\033[0m'
 
-# Looking for a name of the line for chosen station
+
+# Looking for a name of the line for the chosen station name
 def check_station(station):
     try:
         # Connecting to DB
@@ -16,21 +26,23 @@ def check_station(station):
 
         if connection.is_connected():
             db_Info = connection.get_server_info()
-            print("Connected to MySQL Server!!! Version: ", db_Info)
+            # print("Connected to MySQL Server!!! Version: ", db_Info)
             cursor = connection.cursor()
 
-            # query = 'SELECT * FROM stations where stations.name = %s INNER JOIN joins ON stations.id = joins.station_id'
+            query = 'SELECT stations.name, joins.line FROM stations INNER JOIN joins ON stations.id = ' \
+                    'joins.station_id where stations.name = %s '
 
-            query = 'SELECT stations.name, joins.line FROM stations INNER JOIN joins ON stations.id = joins.station_id where stations.name = %s'
-
-            value = (station, )
+            # Station name prepared for the request
+            value = (station,)
 
             cursor.execute(query, value)
 
             records = cursor.fetchall()
             for record in records:
-                print("Station: " + color.UNDERLINE + record[0] + color.END + " is on the line: " + color.UNDERLINE + record[1] + color.END)
-
+                # The answer
+                print(color.YELLOW + "Station: " + color.U + record[0] + color.END + " is on the " + color.RED
+                      + "line: " + color.U + record[1] + color.END)
+                return
 
     except Error as e:
         print("Error while connecting to MySQL", e)
@@ -39,9 +51,9 @@ def check_station(station):
         if connection.is_connected():
             cursor.close()
             connection.close()
-            print("MySQL connection is closed")
+            # print("MySQL connection is closed")
 
-
+# Top level procedure. CLI and user input goes here
 if __name__ == '__main__':
     print("Please choose one of the following actions: ")
     print("1 — Find line by station")
@@ -58,14 +70,12 @@ if __name__ == '__main__':
         if station_input != '':
             check_station(station_input)
         else:
-            print("Invalid input. lease try again")
+            print(color.RED + "Invalid input. lease try again" + color.END)
             quit()
         print("Thank you for using our service! Have a pleasant journey.")
     elif c == 2:
         line_input = input("Please type in exact name of the line: ")
         print("Thank you for using our service! Have a pleasant journey.")
     else:
-        print("Invalid input. lease try again")
+        print(color.RED + "Invalid input. lease try again" + color.END)
         quit()
-
-    # connect_db()
