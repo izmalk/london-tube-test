@@ -38,7 +38,7 @@ try:
                 cursor.execute(query, values)
                 print("Added: " + record['name'] + " " + station_id)
        """
-
+       """
         # Uploading connections (joins table)
         for record in data['lines']:
             query = "INSERT INTO joins (station_id, line) VALUES (%s, %s)"
@@ -50,7 +50,7 @@ try:
                         values = (station_id, record['name'])
                         cursor.execute(query, values)
                         print("Added: " + record['name'] + " " + station_id)
-
+        """
 
         # Closing file
         f.close()
