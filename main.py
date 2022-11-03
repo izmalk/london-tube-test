@@ -43,6 +43,8 @@ def check_station(station):
                 print(color.YELLOW + "Station: " + color.U + record[0] + color.END + " is on the " + color.RED
                       + "line: " + color.U + record[1] + color.END)
                 return
+            print(color.RED + "No results found" + color.END)
+            return
 
     except Error as e:
         print("Error while connecting to MySQL", e)
@@ -56,8 +58,8 @@ def check_station(station):
 # Top level procedure. CLI and user input goes here
 if __name__ == '__main__':
     print("Please choose one of the following actions: ")
-    print("1 — Find line by station")
-    print("2 — Find station by line")
+    print("1 — Find line(s) by station")
+    print("2 — Find all stations for the chosen line")
 
     try:
         c = int(input("Type in the number: "))
