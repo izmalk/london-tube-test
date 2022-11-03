@@ -1,6 +1,9 @@
 import mysql.connector
 from mysql.connector import Error
 
+class color:
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
 
 # Looking for a name of the line for chosen station
 def check_station(station):
@@ -16,15 +19,17 @@ def check_station(station):
             print("Connected to MySQL Server!!! Version: ", db_Info)
             cursor = connection.cursor()
 
-            query = 'SELECT * FROM stations where stations.name = %s INNER JOIN joins ON stations.id = joins.station_id'
+            # query = 'SELECT * FROM stations where stations.name = %s INNER JOIN joins ON stations.id = joins.station_id'
 
-            value = station
+            query = 'SELECT stations.name, joins.line FROM stations INNER JOIN joins ON stations.id = joins.station_id where stations.name = %s'
+
+            value = (station, )
 
             cursor.execute(query, value)
 
             records = cursor.fetchall()
             for record in records:
-                print(record)
+                print("Station: " + color.UNDERLINE + record[0] + color.END + " is on the line: " + color.UNDERLINE + record[1] + color.END)
 
 
     except Error as e:
