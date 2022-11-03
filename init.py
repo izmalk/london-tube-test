@@ -19,29 +19,33 @@ try:
         # a dictionary
         data = json.load(f)
 
-        # Iterating through the json
-        # list
-        # values = []
+        # Uploading stations
+        """
         for record in data['stations']:
             query = "INSERT INTO stations (ID, name) VALUES (%s, %s)"
             values = (record['id'], record['name'])
             cursor.execute(query, values)
             print("Added: " + record['name'] + " " + record['id'])
-
-
-            # values = values.append(record['name'], record['id'])
-
+        """
+        # Uploading lines
+        for record in data['lines']:
+            query = "INSERT INTO line (ID, name) VALUES (%s, %s)"
+            for station_id in record['stations']:
+                #print(record['name'] + " " + station)
+                values = (station_id, record['name'])
+                cursor.execute(query, values)
+                print("Added: " + record['name'] + " " + station_id)
+       
         # Closing file
         f.close()
 
-
-
+        connection.commit()
 
 
         #query = "INSERT INTO stations (ID, name) VALUES (%s, %s)"
         # cursor.execute(query, values)
        #cursor.executemany(query, values)
-        connection.commit()
+
         #print(cursor.rowcount, "User added")
 
 except Error as e:
