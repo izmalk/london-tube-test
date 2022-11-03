@@ -28,8 +28,8 @@ try:
             print("Added: " + record['name'] + " " + record['id'])
         """
 
-        """
         # Uploading lines
+        """
         for record in data['lines']:
             query = "INSERT INTO line (ID, name) VALUES (%s, %s)"
             for station_id in record['stations']:
@@ -38,8 +38,10 @@ try:
                 cursor.execute(query, values)
                 print("Added: " + record['name'] + " " + station_id)
        """
+
+       # Uploading connections (joins table)
        """
-        # Uploading connections (joins table)
+        
         for record in data['lines']:
             query = "INSERT INTO joins (station_id, line) VALUES (%s, %s)"
             for station_id in record['stations']:
@@ -56,13 +58,6 @@ try:
         f.close()
 
         connection.commit()
-
-
-        #query = "INSERT INTO stations (ID, name) VALUES (%s, %s)"
-        # cursor.execute(query, values)
-       #cursor.executemany(query, values)
-
-        #print(cursor.rowcount, "User added")
 
 except Error as e:
     print("Error while connecting to MySQL", e)
