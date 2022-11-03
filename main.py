@@ -38,13 +38,20 @@ def check_station(station):
             cursor.execute(query, value)
 
             records = cursor.fetchall()
+            a = 0
             for record in records:
                 # The answer
                 print(color.YELLOW + "Station: " + color.U + record[0] + color.END + " is on the " + color.RED
                       + "line: " + color.U + record[1] + color.END)
+                a += 1
+            if a == 0:
+                print(color.RED + "No results found" + color.END)
                 return
-            print(color.RED + "No results found" + color.END)
-            return
+            elif a > 0:
+                return
+            else:
+                print("Something went wrong")
+                return
 
     except Error as e:
         print("Error while connecting to MySQL", e)
