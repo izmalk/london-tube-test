@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
+
 # Output design options
 class color:
     PURPLE = '\033[95m'
@@ -61,6 +62,7 @@ def check_station(station):
             cursor.close()
             connection.close()
             # print("MySQL connection is closed")
+
 
 # Top level procedure. CLI and user input goes here
 if __name__ == '__main__':
